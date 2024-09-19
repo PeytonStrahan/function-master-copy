@@ -102,8 +102,6 @@ function capitalizeAllWords(string) {
 
     // loop through the strings array
     for (let i = 0; i < stringsArr.length; i++) {
-        console.log(stringsArr)
-        console.log(newString)
         // determine if the current string is not a space
         if (stringsArr[i] !== " ") {
             // concatenate the new string with the result of concatenating the capitalized first character of the current word to the front of another version of that same word that had its first character excluded via a slice method
@@ -135,7 +133,13 @@ function welcomeMessage(object) {
 //////////////////////////////////////////////////////////////////////
 
 function profileInfo(object) {
+    // create a capitalized name string by calling the capitalizeWord function with the inputted object's name property
+    var capName = capitalizeWord(object.name);
+    // create a capitalized species string by calling the capitalizeWord function with the inputted object's species property
+    var capSpecies = capitalizeWord(object.species);
 
+    // return a message string concatenated with the capitalized name and species strings
+    return capName + " is a " + capSpecies;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -143,7 +147,31 @@ function profileInfo(object) {
 //////////////////////////////////////////////////////////////////////
 
 function maybeNoises(object) {
+    // determine if the input object is empty
+    if (Object.keys(object).length === 0) {
+        // return "there are no noises" if so
+        return "there are no noises";
+    }
+    // otherwise, determine if the object's noises array is empty
+    else if (object.noises.length === 0) {
+        // return "there are no noises" if so
+        return "there are no noises";
+    }
 
+    // otherwise, create a new empty noises string
+    var noisesString = "";
+
+    // loop through input object's noises array
+    for (let i = 0; i < object.noises.length; i++) {
+        // concatenate the current string from the array and a space string onto the noises string
+        noisesString += object.noises[i] + " ";
+    }
+
+    // remove the last space from the noises string
+    noisesString = noisesString.slice(0, noisesString.length - 1);
+
+    // return the noises string
+    return noisesString;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -151,7 +179,20 @@ function maybeNoises(object) {
 //////////////////////////////////////////////////////////////////////
 
 function hasWord(string, word) {
+    // create a strings array variable and assign to it the array made from using .split on the input string to separate all strings in this new array by spaces
+    var stringsArr = string.split(/(\s)/);
 
+    // loop through the strings array
+    for (let i = 0; i < stringsArr.length; i++) {
+        // determine if the current string is equal to the inputted word string
+        if (stringsArr[i] === word) {
+            // return true is so
+            return true;
+        }
+    }
+
+    // return false if no matching string is found
+    return false;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -159,7 +200,10 @@ function hasWord(string, word) {
 //////////////////////////////////////////////////////////////////////
 
 function addFriend (name, object) {
-
+    // push the input name onto the input object's friends array
+    object.friends.push(name);
+    // return the input object
+    return object;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -167,7 +211,23 @@ function addFriend (name, object) {
 //////////////////////////////////////////////////////////////////////
 
 function isFriend(name, object) {
+    // determine if the input object is empty
+    if (Object.keys(object).length === 0) {
+        // return false if so
+        return false;
+    }
 
+    // otherwise, loop through input object's friends array
+    for (let i = 0; i < object.friends.length; i++) {
+        // determine if the current friend string from the array is equal to the input name string
+        if (object.friends[i] === name){
+            // return true if so
+            return true;
+        }
+    }
+
+    // otherwise, return false
+    return false;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -175,7 +235,34 @@ function isFriend(name, object) {
 //////////////////////////////////////////////////////////////////////
 
 function nonFriends(name, array) {
+    // create a new empty nonFriendsArray array
+    var nonFriendsArray = [];
+    // initialize a friendsArray variable
+    var friendsArray;
 
+    // loop through the input array
+    for (let i = 0; i < array.length; i++) {
+        // determine if the current object's name is equal to the input name
+        if (array[i].name === name) {
+            // assign the friends list array from the current object to the friendsArray variable
+            friendsArray = array[i].friends;
+        }
+    }
+
+    // loop through the input array again
+    for (let i = 0; i < array.length; i++) {
+        // determine if the current object's name is NOT equal to the input name
+        if (array[i].name !== name) {
+            // if so, then determine if the current object's name is NOT included in the friendsArray array
+            if (!friendsArray.includes(array[i].name)) {
+                // push the object's name onto the nonFriendsArray array if so
+                nonFriendsArray.push(array[i].name)
+            }
+        }
+    }
+
+    // return the nonFriendsArray array
+    return nonFriendsArray;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -183,7 +270,10 @@ function nonFriends(name, array) {
 //////////////////////////////////////////////////////////////////////
 
 function updateObject(object, key, value) {
-
+    // use bracket notation and an assignment operator to automatically change or add a key/value pair to the input object depending on whether or not it exists
+    object[key] = value;
+    // return the input object
+    return object;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -191,7 +281,14 @@ function updateObject(object, key, value) {
 //////////////////////////////////////////////////////////////////////
 
 function removeProperties(object, array) {
-
+    // loop through the input object
+    for (let key in object) {
+        // determine if the current key in included in the input array
+        if (array.includes(key)) {
+            // delete the current object property if so
+            delete object[key];
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -199,7 +296,20 @@ function removeProperties(object, array) {
 //////////////////////////////////////////////////////////////////////
 
 function dedup(array) {
+    // create a new empty reference array
+    var referenceArray = [];
 
+    // loop through the input array
+    for (let i = 0; i < array.length; i++) {
+        // determine if the current value in the input array is NOT included in the reference array
+        if (!referenceArray.includes(array[i])) {
+            // push the current value onto the reference array if so
+            referenceArray.push(array[i]);
+        }
+    }
+
+    // return the reference array
+    return referenceArray;
 }
 
 //////////////////////////////////////////////////////////////////////
